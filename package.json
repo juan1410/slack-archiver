@@ -1,0 +1,38 @@
+{
+  "name": "slack-archiver",
+  "version": "0.1.0",
+  "description": "Archives Slack channel history to Postgres before the free-tier 10k message limit purges it.",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "node dist/index.js",
+    "worker": "ts-node-dev --respawn --transpile-only src/worker/index.ts",
+    "worker:start": "node dist/worker/index.js",
+    "migrate": "node-pg-migrate",
+    "migrate:up": "node-pg-migrate up",
+    "migrate:down": "node-pg-migrate down",
+    "export": "ts-node-dev --transpile-only src/scripts/export.ts"
+  },
+  "dependencies": {
+    "@slack/web-api": "^7.7.0",
+    "axios": "^1.7.7",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "jsonwebtoken": "^9.0.2",
+    "node-pg-migrate": "^7.7.1",
+    "pg": "^8.13.1",
+    "pino": "^9.5.0",
+    "pino-pretty": "^11.3.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/node": "^22.9.0",
+    "@types/pg": "^8.11.10",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.6.3"
+  }
+}
