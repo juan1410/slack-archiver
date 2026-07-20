@@ -12,7 +12,7 @@ const addChannelSchema = z.object({
   channelName: z.string().min(1),
 });
 
-router.get('/channels', requireTeamOwner, async (req: Request, res: Response) => {
+router.get('/', requireTeamOwner, async (req: Request, res: Response) => {
   const { teamId } = req.archiverUser!;
   const result = await query<ChannelRow>(
     'SELECT * FROM channels WHERE team_id = $1 ORDER BY created_at DESC',
@@ -21,7 +21,7 @@ router.get('/channels', requireTeamOwner, async (req: Request, res: Response) =>
   res.json({ channels: result.rows });
 });
 
-router.post('/channels', requireTeamOwner, async (req: Request, res: Response) => {
+router.post('/', requireTeamOwner, async (req: Request, res: Response) => {
   const parsed = addChannelSchema.safeParse(req.body);
   if (!parsed.success) {
     res.status(400).json({ error: parsed.error.flatten() });
@@ -52,7 +52,7 @@ router.post('/channels', requireTeamOwner, async (req: Request, res: Response) =
   }
 });
 
-router.delete('/channels/:slackChannelId', requireTeamOwner, async (req: Request, res: Response) => {
+router.delete('/:slackChannelId', requireTeamOwner, async (req: Request, res: Response) => {
   const { teamId } = req.archiverUser!;
   const { slackChannelId } = req.params;
 

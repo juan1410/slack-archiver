@@ -6,7 +6,7 @@ import { MessageRow, ChannelRow } from '../types';
 const router = Router();
 
 router.get(
-  '/api/channels/:slackChannelId/messages',
+  '/channels/:slackChannelId/messages',
   requireTeamOwner,
   async (req: Request, res: Response) => {
     const { teamId } = req.archiverUser!;
