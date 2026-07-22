@@ -1,4 +1,7 @@
-exports.shorthands = undefined;
+exports.shorthands = {
+  created_at: { type: 'timestamptz', notNull: true, default: 'now()' },
+  updated_at: { type: 'timestamptz', notNull: true, default: 'now()' },
+};
 
 exports.up = (pgm) => {
   pgm.createTable('teams', {
@@ -8,8 +11,8 @@ exports.up = (pgm) => {
     bot_user_id: { type: 'text' },
     bot_access_token: { type: 'text', notNull: true },
     installed_by_slack_user_id: { type: 'text', notNull: true },
-    created_at: { type: 'timestamptz', notNull: true, default: pgm.func('now()') },
-    updated_at: { type: 'timestamptz', notNull: true, default: pgm.func('now()') },
+    created_at: 'created_at',
+    updated_at: 'updated_at',
   });
 
   pgm.createTable('channels', {
@@ -24,8 +27,8 @@ exports.up = (pgm) => {
     channel_name: { type: 'text', notNull: true },
     is_active: { type: 'boolean', notNull: true, default: true },
     added_by_slack_user_id: { type: 'text', notNull: true },
-    created_at: { type: 'timestamptz', notNull: true, default: pgm.func('now()') },
-    updated_at: { type: 'timestamptz', notNull: true, default: pgm.func('now()') },
+    created_at: 'created_at',
+    updated_at: 'updated_at',
   });
   pgm.addConstraint('channels', 'channels_team_slack_channel_unique', {
     unique: ['team_id', 'slack_channel_id'],
@@ -46,7 +49,7 @@ exports.up = (pgm) => {
     subtype: { type: 'text' },
     text: { type: 'text' },
     raw: { type: 'jsonb', notNull: true },
-    created_at: { type: 'timestamptz', notNull: true, default: pgm.func('now()') },
+    created_at: 'created_at',
   });
   pgm.addConstraint('messages', 'messages_channel_ts_unique', {
     unique: ['channel_id', 'slack_ts'],
@@ -63,7 +66,7 @@ exports.up = (pgm) => {
       references: 'channels',
       onDelete: 'CASCADE',
     },
-    started_at: { type: 'timestamptz', notNull: true, default: pgm.func('now()') },
+    started_at: 'created_at',
     finished_at: { type: 'timestamptz' },
     status: { type: 'text', notNull: true, default: 'running' },
     messages_fetched: { type: 'integer', notNull: true, default: 0 },
