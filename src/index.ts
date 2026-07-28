@@ -7,6 +7,7 @@ import archiveApiRoutes from './api/archive';
 
 const app = express();
 app.use(express.json());
+app.use(express.static('src/public'));
 
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
